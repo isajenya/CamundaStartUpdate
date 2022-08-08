@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1lsn4c4" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.1.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <bpmn:process id="Process_0gdxjm0" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_0l1ljqd" sourceRef="EventNeedFriendsHelp" targetRef="FriendAnswer" />
+    <bpmn:endEvent id="Event_091u35b">
+      <bpmn:incoming>Flow_1stsjvw</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1stsjvw" sourceRef="FriendAnswer" targetRef="Event_091u35b" />
+    <bpmn:startEvent id="EventNeedFriendsHelp" name="Need friends help">
+      <bpmn:outgoing>Flow_0l1ljqd</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0g86pyd" messageRef="Message_10m96mh" />
+    </bpmn:startEvent>
+    <bpmn:userTask id="FriendAnswer" name="Friend answer the question">
+      <bpmn:incoming>Flow_0l1ljqd</bpmn:incoming>
+      <bpmn:outgoing>Flow_1stsjvw</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmn:message id="Message_10m96mh" name="AskFriend" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0gdxjm0">
+      <bpmndi:BPMNEdge id="Flow_1stsjvw_di" bpmnElement="Flow_1stsjvw">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="432" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0l1ljqd_di" bpmnElement="Flow_0l1ljqd">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_091u35b_di" bpmnElement="Event_091u35b">
+        <dc:Bounds x="432" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ndgkmf_di" bpmnElement="EventNeedFriendsHelp">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="153" y="142" width="88" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1jkgs5a_di" bpmnElement="FriendAnswer">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

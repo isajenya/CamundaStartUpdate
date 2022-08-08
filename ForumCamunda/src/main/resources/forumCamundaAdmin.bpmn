@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_11jqjwp" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.1.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <bpmn:process id="Process_0h8tuzb" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_12drtoa" sourceRef="EventQuestionCreated" targetRef="InformAdmin" />
+    <bpmn:sequenceFlow id="Flow_1k6bwdk" sourceRef="InformAdmin" targetRef="EventBasedG" />
+    <bpmn:eventBasedGateway id="EventBasedG">
+      <bpmn:incoming>Flow_1k6bwdk</bpmn:incoming>
+      <bpmn:outgoing>Flow_1jh2p0a</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1o674xl</bpmn:outgoing>
+      <bpmn:outgoing>Flow_009we9k</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+    <bpmn:intermediateCatchEvent id="EventAdminKnows" name="Admin knows&#10;the answer">
+      <bpmn:incoming>Flow_1jh2p0a</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mzlwm5</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0vadv3b" messageRef="Message_1kogii9" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_1jh2p0a" sourceRef="EventBasedG" targetRef="EventAdminKnows" />
+    <bpmn:intermediateCatchEvent id="EventAdminHasNoIdea" name="Admin has no idea">
+      <bpmn:incoming>Flow_1o674xl</bpmn:incoming>
+      <bpmn:outgoing>Flow_067dm8i</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1v7n5te" messageRef="Message_32akcuv" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_1o674xl" sourceRef="EventBasedG" targetRef="EventAdminHasNoIdea" />
+    <bpmn:sequenceFlow id="Flow_1mzlwm5" sourceRef="EventAdminKnows" targetRef="AnswerQuestion" />
+    <bpmn:sequenceFlow id="Flow_14fxjmw" sourceRef="AnswerQuestion" targetRef="Event_168597i" />
+    <bpmn:endEvent id="Event_168597i">
+      <bpmn:incoming>Flow_14fxjmw</bpmn:incoming>
+      <bpmn:terminateEventDefinition id="TerminateEventDefinition_0dexofk" />
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_067dm8i" sourceRef="EventAdminHasNoIdea" targetRef="EventAskFriend" />
+    <bpmn:userTask id="AnswerQuestion" name="Answer the question">
+      <bpmn:incoming>Flow_1mzlwm5</bpmn:incoming>
+      <bpmn:outgoing>Flow_14fxjmw</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:boundaryEvent id="EventQuestionChanged" name="Question has been changed" cancelActivity="false" attachedToRef="AnswerQuestion">
+      <bpmn:outgoing>Flow_0o100fo</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1i6fg7w" messageRef="Message_267euct" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_0o100fo" sourceRef="EventQuestionChanged" targetRef="ReadQuestionAgain" />
+    <bpmn:endEvent id="Event_1x7gpqc">
+      <bpmn:incoming>Flow_1stcez4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1stcez4" sourceRef="ReadQuestionAgain" targetRef="Event_1x7gpqc" />
+    <bpmn:userTask id="ReadQuestionAgain" name="Read question&#10;again">
+      <bpmn:incoming>Flow_0o100fo</bpmn:incoming>
+      <bpmn:outgoing>Flow_1stcez4</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:startEvent id="EventQuestionCreated" name="Question in form created">
+      <bpmn:outgoing>Flow_12drtoa</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_040bhi6" messageRef="Message_1rfgqpc" />
+    </bpmn:startEvent>
+    <bpmn:endEvent id="EventAskFriend" name="Ask admins friend">
+      <bpmn:incoming>Flow_067dm8i</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_17ysdnl" messageRef="Message_0d891dl" camunda:class="com.gmail.jenya.isa.AskFriend" />
+    </bpmn:endEvent>
+    <bpmn:subProcess id="Activity_0h28od8" triggeredByEvent="true">
+      <bpmn:startEvent id="EventVeryImportantWork" name="Very important work">
+        <bpmn:outgoing>Flow_0fbkbmg</bpmn:outgoing>
+        <bpmn:signalEventDefinition id="SignalEventDefinition_17homry" signalRef="Signal_3t14fqb" />
+      </bpmn:startEvent>
+      <bpmn:sequenceFlow id="Flow_0fbkbmg" sourceRef="EventVeryImportantWork" targetRef="PlayTennis" />
+      <bpmn:endEvent id="Event_1x1f2qs">
+        <bpmn:incoming>Flow_1bihodu</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_1bihodu" sourceRef="PlayTennis" targetRef="Event_1x1f2qs" />
+      <bpmn:userTask id="PlayTennis" name="Play tennis">
+        <bpmn:incoming>Flow_0fbkbmg</bpmn:incoming>
+        <bpmn:outgoing>Flow_1bihodu</bpmn:outgoing>
+      </bpmn:userTask>
+    </bpmn:subProcess>
+    <bpmn:sendTask id="InformAdmin" name="Inform admin about the question" camunda:class="com.gmail.jenya.isa.LoggerDelegate">
+      <bpmn:incoming>Flow_12drtoa</bpmn:incoming>
+      <bpmn:outgoing>Flow_1k6bwdk</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:intermediateCatchEvent id="EventTimer30Sec" name="30 SECONDS">
+      <bpmn:incoming>Flow_009we9k</bpmn:incoming>
+      <bpmn:outgoing>Flow_0xmatj0</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0y4wexz">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT15S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_009we9k" sourceRef="EventBasedG" targetRef="EventTimer30Sec" />
+    <bpmn:endEvent id="Event_0ry5ec3">
+      <bpmn:incoming>Flow_1cwifxr</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0xmatj0" sourceRef="EventTimer30Sec" targetRef="AdminSleep" />
+    <bpmn:sequenceFlow id="Flow_1cwifxr" sourceRef="AdminSleep" targetRef="Event_0ry5ec3" />
+    <bpmn:scriptTask id="AdminSleep" name="Admin is sleeping" scriptFormat="javascript">
+      <bpmn:incoming>Flow_0xmatj0</bpmn:incoming>
+      <bpmn:outgoing>Flow_1cwifxr</bpmn:outgoing>
+      <bpmn:script>print('Admin is sleeping');</bpmn:script>
+    </bpmn:scriptTask>
+  </bpmn:process>
+  <bpmn:message id="Message_1rfgqpc" name="QuestionCreated" />
+  <bpmn:message id="Message_1kogii9" name="AdminKnows" />
+  <bpmn:message id="Message_32akcuv" name="AdminHasNoIdea" />
+  <bpmn:message id="Message_267euct" name="QuestionEdited" />
+  <bpmn:signal id="Signal_3t14fqb" name="ImportantWork" />
+  <bpmn:message id="Message_0d891dl" name="AskFriend" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0h8tuzb">
+      <bpmndi:BPMNEdge id="Flow_1stcez4_di" bpmnElement="Flow_1stcez4">
+        <di:waypoint x="870" y="210" />
+        <di:waypoint x="962" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0o100fo_di" bpmnElement="Flow_0o100fo">
+        <di:waypoint x="700" y="272" />
+        <di:waypoint x="700" y="210" />
+        <di:waypoint x="770" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_067dm8i_di" bpmnElement="Flow_067dm8i">
+        <di:waypoint x="578" y="440" />
+        <di:waypoint x="792" y="440" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14fxjmw_di" bpmnElement="Flow_14fxjmw">
+        <di:waypoint x="730" y="330" />
+        <di:waypoint x="792" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mzlwm5_di" bpmnElement="Flow_1mzlwm5">
+        <di:waypoint x="568" y="330" />
+        <di:waypoint x="630" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1o674xl_di" bpmnElement="Flow_1o674xl">
+        <di:waypoint x="450" y="355" />
+        <di:waypoint x="450" y="440" />
+        <di:waypoint x="542" y="440" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1jh2p0a_di" bpmnElement="Flow_1jh2p0a">
+        <di:waypoint x="475" y="330" />
+        <di:waypoint x="532" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1k6bwdk_di" bpmnElement="Flow_1k6bwdk">
+        <di:waypoint x="370" y="330" />
+        <di:waypoint x="425" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12drtoa_di" bpmnElement="Flow_12drtoa">
+        <di:waypoint x="215" y="330" />
+        <di:waypoint x="270" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_009we9k_di" bpmnElement="Flow_009we9k">
+        <di:waypoint x="450" y="305" />
+        <di:waypoint x="450" y="120" />
+        <di:waypoint x="532" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0xmatj0_di" bpmnElement="Flow_0xmatj0">
+        <di:waypoint x="568" y="120" />
+        <di:waypoint x="610" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1cwifxr_di" bpmnElement="Flow_1cwifxr">
+        <di:waypoint x="710" y="120" />
+        <di:waypoint x="752" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_17th30b_di" bpmnElement="InformAdmin">
+        <dc:Bounds x="270" y="290" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1evcy6a_di" bpmnElement="EventBasedG">
+        <dc:Bounds x="425" y="305" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1loc140_di" bpmnElement="EventAdminKnows">
+        <dc:Bounds x="532" y="312" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="518" y="355" width="65" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1c8515v_di" bpmnElement="EventAdminHasNoIdea">
+        <dc:Bounds x="542" y="422" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="527" y="465" width="67" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1gs2qbp_di" bpmnElement="Event_168597i">
+        <dc:Bounds x="792" y="312" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0qpfxra_di" bpmnElement="AnswerQuestion">
+        <dc:Bounds x="630" y="290" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1x7gpqc_di" bpmnElement="Event_1x7gpqc">
+        <dc:Bounds x="962" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_03i2dzz_di" bpmnElement="ReadQuestionAgain">
+        <dc:Bounds x="770" y="170" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0gs1qnv_di" bpmnElement="EventQuestionCreated">
+        <dc:Bounds x="179" y="312" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="158" y="355" width="81" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0dz5h9c_di" bpmnElement="EventAskFriend">
+        <dc:Bounds x="792" y="422" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="767" y="465" width="87" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1k8s3yl_di" bpmnElement="EventTimer30Sec">
+        <dc:Bounds x="532" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="515" y="145" width="71" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ry5ec3_di" bpmnElement="Event_0ry5ec3">
+        <dc:Bounds x="752" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1r0qfqd_di" bpmnElement="AdminSleep">
+        <dc:Bounds x="610" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1sipgdw_di" bpmnElement="Activity_0h28od8" isExpanded="true">
+        <dc:Bounds x="145" y="510" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1bihodu_di" bpmnElement="Flow_1bihodu">
+        <di:waypoint x="360" y="610" />
+        <di:waypoint x="412" y="610" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0fbkbmg_di" bpmnElement="Flow_0fbkbmg">
+        <di:waypoint x="208" y="610" />
+        <di:waypoint x="260" y="610" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_035u7gg_di" bpmnElement="EventVeryImportantWork">
+        <dc:Bounds x="172" y="592" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="155" y="635" width="71" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1x1f2qs_di" bpmnElement="Event_1x1f2qs">
+        <dc:Bounds x="412" y="592" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1mto3fb_di" bpmnElement="PlayTennis">
+        <dc:Bounds x="260" y="570" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0krkero_di" bpmnElement="EventQuestionChanged">
+        <dc:Bounds x="682" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="615" y="246" width="70" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
